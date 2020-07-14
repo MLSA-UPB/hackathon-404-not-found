@@ -1,6 +1,6 @@
 <html>
     <script type="text/javascript">
-    var canvas, ctx, flag = false,
+    var canvas1, canvas2, canvas3, ctx1, ctx2, ctx3, flag = false,
         prevX = 0,
         currX = 0,
         prevY = 0,
@@ -11,22 +11,58 @@
         y = 2;
 
     function init() {
-        canvas = document.getElementById('can');
-        ctx = canvas.getContext("2d");
-        w = canvas.width;
-        h = canvas.height;
+        canvas1 = document.getElementById('can1');
+        ctx1 = canvas1.getContext("2d");
+        w1 = canvas1.width;
+        h1 = canvas1.height;
 
-        canvas.addEventListener("mousemove", function (e) {
-            findxy('move', e)
+        canvas2 = document.getElementById('can2');
+        ctx2 = canvas2.getContext("2d");
+        w2 = canvas2.width;
+        h2 = canvas2.height;
+
+        canvas3 = document.getElementById('can3');
+        ctx3 = canvas3.getContext("2d");
+        w3 = canvas3.width;
+        h3 = canvas3.height;
+
+        canvas1.addEventListener("mousemove", function (e) {
+            findxy('move', e, ctx1, canvas1)
         }, false);
-        canvas.addEventListener("mousedown", function (e) {
-            findxy('down', e)
+        canvas1.addEventListener("mousedown", function (e) {
+            findxy('down', e, ctx1, canvas1)
         }, false);
-        canvas.addEventListener("mouseup", function (e) {
-            findxy('up', e)
+        canvas1.addEventListener("mouseup", function (e) {
+            findxy('up', e, ctx1, canvas1)
         }, false);
-        canvas.addEventListener("mouseout", function (e) {
-            findxy('out', e)
+        canvas1.addEventListener("mouseout", function (e) {
+            findxy('out', e, ctx1, canvas1)
+        }, false);
+
+        canvas2.addEventListener("mousemove", function (e) {
+            findxy('move', e, ctx2, canvas2)
+        }, false);
+        canvas2.addEventListener("mousedown", function (e) {
+            findxy('down', e, ctx2, canvas2)
+        }, false);
+        canvas2.addEventListener("mouseup", function (e) {
+            findxy('up', e, ctx2, canvas2)
+        }, false);
+        canvas2.addEventListener("mouseout", function (e) {
+            findxy('out', e, ctx2, canvas2)
+        }, false);
+
+        canvas3.addEventListener("mousemove", function (e) {
+            findxy('move', e, ctx3, canvas3)
+        }, false);
+        canvas3.addEventListener("mousedown", function (e) {
+            findxy('down', e, ctx3, canvas3)
+        }, false);
+        canvas3.addEventListener("mouseup", function (e) {
+            findxy('up', e, ctx3, canvas3)
+        }, false);
+        canvas3.addEventListener("mouseout", function (e) {
+            findxy('out', e, ctx3, canvas3)
         }, false);
     }
 
@@ -59,7 +95,7 @@
 
     }
 
-    function draw() {
+    function draw(ctx) {
         ctx.beginPath();
         ctx.moveTo(prevX, prevY);
         ctx.lineTo(currX, currY);
@@ -72,19 +108,20 @@
     function erase() {
         var m = confirm("Want to clear");
         if (m) {
-            ctx.clearRect(0, 0, w, h);
+            ctx1.clearRect(0, 0, w1, h1);
+            ctx2.clearRect(0, 0, w2, h2);
+            ctx3.clearRect(0, 0, w3, h3);
             document.getElementById("canvasimg").style.display = "none";
         }
     }
+    downloadLnk.download = 'myFilename.jpg'
+    function download() {
+    var dt = canvas.toDataURL('image/jpeg');
+    this.href = dt;
+    };
+    downloadLnk.addEventListener('click', download, false);
 
-    function save() {
-        document.getElementById("canvasimg").style.border = "2px solid";
-        var dataURL = canvas.toDataURL();
-        document.getElementById("canvasimg").src = dataURL;
-        document.getElementById("canvasimg").style.display = "inline";
-    }
-
-    function findxy(res, e) {
+    function findxy(res, e, ctx, canvas) {
         if (res == 'down') {
             prevX = currX;
             prevY = currY;
@@ -110,24 +147,25 @@
                 prevY = currY;
                 currX = e.clientX - canvas.offsetLeft;
                 currY = e.clientY - canvas.offsetTop;
-                draw();
+                draw(ctx);
             }
         }
     }
     </script>
     <body onload="init()">
-        <canvas id="can" width="400" height="400" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
-        <div style="position:absolute;top:12%;left:43%;">Choose Color</div>
-        <div style="position:absolute;top:15%;left:45%;width:10px;height:10px;background:green;" id="green" onclick="color(this)"></div>
-        <div style="position:absolute;top:15%;left:46%;width:10px;height:10px;background:blue;" id="blue" onclick="color(this)"></div>
-        <div style="position:absolute;top:15%;left:47%;width:10px;height:10px;background:red;" id="red" onclick="color(this)"></div>
-        <div style="position:absolute;top:17%;left:45%;width:10px;height:10px;background:yellow;" id="yellow" onclick="color(this)"></div>
-        <div style="position:absolute;top:17%;left:46%;width:10px;height:10px;background:orange;" id="orange" onclick="color(this)"></div>
-        <div style="position:absolute;top:17%;left:47%;width:10px;height:10px;background:black;" id="black" onclick="color(this)"></div>
-        <div style="position:absolute;top:20%;left:43%;">Eraser</div>
-        <div style="position:absolute;top:22%;left:45%;width:15px;height:15px;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
-        <img id="canvasimg" style="position:absolute;top:10%;left:52%;" style="display:none;">
-        <input type="button" value="save" id="btn" size="30" onclick="save()" style="position:absolute;top:55%;left:10%;">
-        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:55%;left:15%;">
+        <canvas id="can1" width="300" height="300" style="position:absolute;top:10%;left:10%;border:2px solid;"></canvas>
+        <canvas id="can2" width="150" height="150" style="position:absolute;top:16%;left:31%;border:2px solid;"></canvas>
+        <canvas id="can3" width="300" height="300" style="position:absolute;top:10%;left:42%;border:2px solid;"></canvas>
+        <div style="position:absolute;top:78%;left:43%;">Choose Color</div>
+        <div style="position:absolute;top:80%;left:45%;width:10px;height:10px;background:green;" id="green" onclick="color(this)"></div>
+        <div style="position:absolute;top:80%;left:46%;width:10px;height:10px;background:blue;" id="blue" onclick="color(this)"></div>
+        <div style="position:absolute;top:80%;left:47%;width:10px;height:10px;background:red;" id="red" onclick="color(this)"></div>
+        <div style="position:absolute;top:82%;left:45%;width:10px;height:10px;background:yellow;" id="yellow" onclick="color(this)"></div>
+        <div style="position:absolute;top:82%;left:46%;width:10px;height:10px;background:orange;" id="orange" onclick="color(this)"></div>
+        <div style="position:absolute;top:82%;left:47%;width:10px;height:10px;background:black;" id="black" onclick="color(this)"></div>
+        <div style="position:absolute;top:85%;left:43%;">Eraser</div>
+        <div style="position:absolute;top:87%;left:45%;width:15px;height:15px;background:white;border:2px solid;" id="white" onclick="color(this)"></div>
+        <a id="downloadLnk" download="YourFileName.jpg">Download as image</a>
+        <input type="button" value="clear" id="clr" size="23" onclick="erase()" style="position:absolute;top:85%;left:15%;">
     </body>
     </html>
